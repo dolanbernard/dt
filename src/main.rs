@@ -19,13 +19,23 @@ fn main() {
             timezone,
             format_str,
         ),
-
         Command::Add {
-            delta,
             use_local_tz,
             timezone,
             format_str,
+            delta,
         } => commands::add::run(
+            use_local_tz,
+            timezone,
+            format_str,
+            delta,
+        ),
+        Command::Sub {
+            use_local_tz,
+            timezone,
+            format_str,
+            delta,
+        } => commands::sub::run(
             use_local_tz,
             timezone,
             format_str,

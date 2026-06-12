@@ -1,6 +1,8 @@
-use crate::util::{
-    datetime,
-    duration::parse_duration,
+use crate::{
+    util::{
+        datetime,
+        duration::parse_duration,
+    }
 };
 
 pub fn run(
@@ -15,7 +17,7 @@ pub fn run(
     println!(
         "{}",
         datetime::current_time_plus(
-            duration,
+            -duration,
             use_local_tz,
             timezone.as_deref(),
             format_str.as_deref(),

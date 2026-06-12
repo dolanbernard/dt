@@ -18,15 +18,24 @@ pub enum Command {
         columns: usize,
     },*/
     Now {
-        #[arg(short='l', long="local", required=false)]
+        #[arg(short='l', long="local")]
         use_local_tz: bool,
-        #[arg(short='z', long="tz", required=false)]
+        #[arg(short='z', long="tz")]
         timezone: Option<String>,
-        #[arg(short='f', long="format", required=false)]
+        #[arg(short='f', long="format")]
         format_str: Option<String>,
     },
     Add {
+        #[arg(short='l', long="local")]
+        use_local_tz: bool,
+        #[arg(short='z', long="tz")]
+        timezone: Option<String>,
+        #[arg(short='f', long="format")]
+        format_str: Option<String>,
         /// Examples: 30s, 15m, 2h, 7d
+        delta: String,
+    },
+    Sub {
         #[arg(short='l', long="local")]
         use_local_tz: bool,
         #[arg(short='z', long="tz")]
