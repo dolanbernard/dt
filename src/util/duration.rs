@@ -121,3 +121,52 @@ fn parse_timestamp_duration(s: &str) -> Result<Duration, String> {
             + Duration::milliseconds(millis),
     )
 }
+
+pub fn format_duration(duration: Duration) -> String {
+    let mut remaining = duration.num_milliseconds();
+
+    let units = [
+        ("centur", 100 * 365 * 24 * 60 * 60 * 1000_i64),
+        ("year",    365 * 24 * 60 * 60 * 1000_i64),
+        ("month",    30 * 24 * 60 * 60 * 1000_i64),
+        ("week",      7 * 24 * 60 * 60 * 1000_i64),
+        ("day",          24 * 60 * 60 * 1000_i64),
+        ("hour",              60 * 60 * 1000_i64),
+        ("minute",                 60 * 1000_i64),
+        ("second",                      1000_i64),
+        ("millisecond",                    1_i64),
+    ];
+
+    let mut parts = Vec::new();
+
+    for (name, unit_ms) in units {
+        let count = remaining / unit_ms;
+        if count > 0 {
+            parts.push(format!(
+                "{} {}{}",
+                count,
+                name,
+                if count == 1 {
+                    if name.starts_with("c") {
+                        "y"
+                    } else {
+                        ""
+                    }
+                } else {
+                    if name.starts_with("c") {
+                        "ies"
+                    } else {
+                        "s"
+                    }
+                }
+            ));
+            remaining %= unit_ms;
+        }
+    }
+
+    if parts.is_empty() {
+        "0 milliseconds".to_string()
+    } else {
+        parts.join(" ")
+    }
+}

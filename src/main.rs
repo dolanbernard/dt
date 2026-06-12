@@ -45,6 +45,9 @@ fn main() {
             //
         } => commands::diff::run(
             //
-        )
+        ),
+        Command::Sum { durations} => {
+            commands::sum::run(&durations)
+        }
     }
 }

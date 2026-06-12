@@ -46,4 +46,8 @@ pub enum Command {
     Diff {
         //
     },
+    Sum {
+        #[arg(num_args = 1..)]
+        durations: Vec<String>
+    }
 }
