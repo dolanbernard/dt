@@ -1,4 +1,5 @@
 use chrono::{Duration, Local, Utc};
+use chrono_tz::Tz;
 
 pub fn current_time(
     use_local_tz: bool,
@@ -23,9 +24,8 @@ pub fn current_time_plus(
         let dt = Local::now() + delta;
         format_datetime(dt, format_str)
     } else if let Some(tz_name) = timezone {
-        let tz: chrono_tz::Tz = tz_name
-            .parse()
-            .unwrap_or_else(|_| panic!("Invalid timezone: {tz_name}"));
+        let tz = parse_timezone(tz_name)
+            .expect("Error parsing timezone: {tz_name}");
 
         let dt = Utc::now()
             .with_timezone(&tz)
@@ -51,6 +51,32 @@ where
         None => dt.to_string(),
         //None => dt.format("%F %T-%Z"),
     }
+}
+
+fn parse_timezone(timezone_str: &str) -> Result<Tz, chrono_tz::ParseError> {
+    let timezone_str = timezone_str.trim();
+    let uppercase_timezone_str = timezone_str.to_uppercase();
+    let iana_name = match uppercase_timezone_str.as_str() {
+        "EST" | "EDT" => Some("America/New_York"),
+        "CST" | "CDT" => Some("America/Chicago"),
+        "MST" | "MDT" => Some("America/Denver"),
+        "PST" | "PDT" => Some("America/Los_Angeles"),
+
+        "CET" | "CEST" => Some("Europe/Paris"),
+        "GMT" | "BST" => Some("Europe/London"),
+
+        "JST" => Some("Asia/Tokyo"),
+        "AEST" | "AEDT" => Some("Australia/Sydney"),
+        _ => None
+    };
+    if let Some(tz) = iana_name {
+        return tz.parse();
+    }
+
+    timezone_str.parse()
+        .or_else(|_| timezone_str.replace(" ", "_").parse())
+        .or_else(|_| uppercase_timezone_str.replace(" ", "_").parse())
+        .or_else(|_| uppercase_timezone_str.to_lowercase().replace(" ", "_").parse())
 }
 
 enum FormatPreset {

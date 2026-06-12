@@ -43,4 +43,7 @@ pub enum Command {
         format_str: Option<String>,
         delta: String,
     },
+    Diff {
+        //
+    },
 }

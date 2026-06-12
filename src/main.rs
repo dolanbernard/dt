@@ -41,5 +41,10 @@ fn main() {
             format_str,
             delta,
         ),
+        Command::Diff {
+            //
+        } => commands::diff::run(
+            //
+        )
     }
 }
