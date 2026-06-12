@@ -49,5 +49,33 @@ where
     match format_str {
         Some(fmt) => dt.format(fmt).to_string(),
         None => dt.to_string(),
+        //None => dt.format("%F %T-%Z"),
+    }
+}
+
+enum FormatPreset {
+    Iso8601,
+    Rfc3339,
+    DayMonthYear,
+    DayMonthYearShort,
+    MonthDayYear,
+    FullText,
+    ShortText,
+}
+
+impl FormatPreset {
+    fn get_format_str(&self) -> &'static str {
+        match self {
+            FormatPreset::Iso8601 | FormatPreset::Rfc3339 => "%+",
+            FormatPreset::DayMonthYear => "%e-%B-%Y",
+            FormatPreset::DayMonthYearShort => "%e-%b-%Y",
+            FormatPreset::MonthDayYear => "%D",
+            FormatPreset::FullText => "%A, %B %e, %Y",
+            FormatPreset::ShortText => "%a, %b %e, %Y",
+            _ => "%+"
+        }
+    }
+    fn try_parse_fuzzy(s: impl AsRef<str>) -> Option<Self> {
+        Some(FormatPreset::Iso8601)
     }
 }

@@ -1,6 +1,10 @@
 use chrono::Duration;
 
 pub fn parse_duration(s: &str) -> Result<Duration, String> {
+    if !s.chars().any(|c| c.is_ascii_alphabetic()) {
+        return parse_timestamp_duration(s);
+    }
+
     let mut total_micros: i64 = 0;
 
     for part in s.split_whitespace() {
@@ -22,7 +26,6 @@ pub fn parse_duration(s: &str) -> Result<Duration, String> {
             "h" => value * 60.0 * 60.0 * 1_000_000.0,
             "d" => value * 24.0 * 60.0 * 60.0 * 1_000_000.0,
             "w" => value * 7.0 * 24.0 * 60.0 * 60.0 * 1_000_000.0,
-            // TODO: best way to do month/year math?
             "M" | "mon" | "month" =>
                 value * 30.0 * 24.0 * 60.0 * 60.0 * 1_000_000.0,
             "y" | "yr" =>
@@ -36,4 +39,85 @@ pub fn parse_duration(s: &str) -> Result<Duration, String> {
     }
 
     Ok(Duration::microseconds(total_micros))
+}
+
+fn parse_timestamp_duration(s: &str) -> Result<Duration, String> {
+    let (time_part, millis_part) = match s.split_once(';') {
+        Some((time, millis)) => (time, Some(millis)),
+        None => (s, None),
+    };
+
+    let fields: Vec<&str> = time_part.split(':').collect();
+
+    if fields.is_empty() || fields.len() > 4 {
+        return Err(format!("Invalid duration timestamp '{s}'"));
+    }
+
+    let mut days = 0i64;
+    let mut hours = 0i64;
+    let mut minutes = 0i64;
+    let seconds: i64;
+
+    match fields.len() {
+        1 => {
+            seconds = fields[0]
+                .parse()
+                .map_err(|_| format!("Invalid seconds '{}'", fields[0]))?;
+        }
+        2 => {
+            minutes = fields[0]
+                .parse()
+                .map_err(|_| format!("Invalid minutes '{}'", fields[0]))?;
+
+            seconds = fields[1]
+                .parse()
+                .map_err(|_| format!("Invalid seconds '{}'", fields[1]))?;
+        }
+        3 => {
+            hours = fields[0]
+                .parse()
+                .map_err(|_| format!("Invalid hours '{}'", fields[0]))?;
+
+            minutes = fields[1]
+                .parse()
+                .map_err(|_| format!("Invalid minutes '{}'", fields[1]))?;
+
+            seconds = fields[2]
+                .parse()
+                .map_err(|_| format!("Invalid seconds '{}'", fields[2]))?;
+        }
+        4 => {
+            days = fields[0]
+                .parse()
+                .map_err(|_| format!("Invalid days '{}'", fields[0]))?;
+
+            hours = fields[1]
+                .parse()
+                .map_err(|_| format!("Invalid hours '{}'", fields[1]))?;
+
+            minutes = fields[2]
+                .parse()
+                .map_err(|_| format!("Invalid minutes '{}'", fields[2]))?;
+
+            seconds = fields[3]
+                .parse()
+                .map_err(|_| format!("Invalid seconds '{}'", fields[3]))?;
+        }
+        _ => unreachable!(),
+    }
+
+    let millis = match millis_part {
+        Some(ms) => ms
+            .parse::<i64>()
+            .map_err(|_| format!("Invalid milliseconds '{ms}'"))?,
+        None => 0,
+    };
+
+    Ok(
+        Duration::days(days)
+            + Duration::hours(hours)
+            + Duration::minutes(minutes)
+            + Duration::seconds(seconds)
+            + Duration::milliseconds(millis),
+    )
 }
