@@ -122,7 +122,7 @@ fn parse_timestamp_duration(s: &str) -> Result<Duration, String> {
     )
 }
 
-pub fn format_duration(duration: Duration) -> String {
+pub fn format_duration(format_str: &str, duration: Duration) -> String {
     let mut remaining = duration.num_milliseconds();
 
     let units = [
@@ -147,12 +147,16 @@ pub fn format_duration(duration: Duration) -> String {
                 count,
                 name,
                 if count == 1 {
+                    // This is dumb, but it's technically faster than matching the entire string and
+                    // I don't think we're gonna add more time words within this list
                     if name.starts_with("c") {
                         "y"
                     } else {
                         ""
                     }
                 } else {
+                    // IDEK why I even care about the grammar here. But it'd bother me if I didn't
+                    // make it correct.
                     if name.starts_with("c") {
                         "ies"
                     } else {

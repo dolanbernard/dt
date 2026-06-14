@@ -41,13 +41,45 @@ fn main() {
             format_str,
             delta,
         ),
-        Command::Diff {
-            //
-        } => commands::diff::run(
-            //
-        ),
-        Command::Sum { durations} => {
-            commands::sum::run(&durations)
+        Command::Since {
+            ref_uses_local,
+            ref_timezone,
+            end_uses_local,
+            end_timezone,
+            start,
+            end,
+        } => {
+            commands::since::run(
+                ref_uses_local,
+                ref_timezone,
+                end_uses_local,
+                end_timezone,
+                start,
+                end
+            );
+        },
+        Command::Until {
+            ref_uses_local,
+            ref_timezone,
+            end_uses_local,
+            end_timezone,
+            start,
+            end
+        } => {
+            commands::until::run(
+                ref_uses_local,
+                ref_timezone,
+                end_uses_local,
+                end_timezone,
+                start,
+                end
+            );
+        },
+        Command::Sum {
+            format_str,
+            durations,
+        } => {
+            commands::sum::run(format_str, &durations)
         }
     }
 }

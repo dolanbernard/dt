@@ -2,9 +2,10 @@ use chrono::Duration;
 
 use crate::util::duration;
 
-pub fn run(duration_strings: &Vec<String>) {
+pub fn run(format_str: Option<String>, duration_strings: &Vec<String>) {
     let total = sum(duration_strings).unwrap();
-    println!("{}", duration::format_duration(total));
+    println!("{}", 
+        duration::format_duration(format_str.unwrap_or("".to_string()).as_ref(), total));
 }
 
 fn sum(duration_strings: &Vec<String>) -> Result<Duration, String> {
