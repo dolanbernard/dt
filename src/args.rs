@@ -56,10 +56,10 @@ pub enum Command {
         end_uses_local: bool,
         #[arg(short='t', long="end-tz")]
         end_timezone: Option<String>,
-        #[arg(short='r', long="ref", required=true)]
-        start: String,
         #[arg(short='e', long="end")]
         end: Option<String>,
+        #[arg(required=true)]
+        start: String,
     },
     #[command(alias = "utl")]
     Until {
@@ -73,7 +73,7 @@ pub enum Command {
         end_timezone: Option<String>,
         #[arg(short='r', long="ref")]
         start: Option<String>,
-        #[arg(short='e', long="end", required=true)]
+        #[arg(required=true)]
         end: String,
     },
     #[command(alias = "total")]

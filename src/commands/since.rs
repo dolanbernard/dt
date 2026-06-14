@@ -5,8 +5,8 @@ pub fn run(
     ref_timezone: Option<String>,
     end_uses_local: bool,
     end_timezone: Option<String>,
-    start: String,
     end: Option<String>,
+    start: String,
 ) {
     let start = datetime_diff::parse_endpoint(
         ref_uses_local,

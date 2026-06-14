@@ -54,8 +54,8 @@ fn main() {
                 ref_timezone,
                 end_uses_local,
                 end_timezone,
-                start,
-                end
+                end,
+                start
             );
         },
         Command::Until {
