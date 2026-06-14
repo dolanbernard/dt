@@ -33,7 +33,6 @@ pub enum Command {
         timezone: Option<String>,
         #[arg(short='f', long="format")]
         format_str: Option<String>,
-        /// Examples: 30s, 15m, 2h, 7d
         delta: String,
     },
     #[command(alias = "s")]
