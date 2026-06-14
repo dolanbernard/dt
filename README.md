@@ -1,6 +1,6 @@
 # dt
 
-dt stands for Δt, or Delta Time. dt is a CLI utility for doing quick DateTime calculations. Features include displaying current DateTime for UTC, local, or a specified timezone, adding/subtracting a duration from a DateTime, calculating time since/until between two DateTimes with mixed formats+timezones, and summing durations with varying formats. Most commands accept input DateTimes from any format and allow a format specifier for the output.
+dt stands for Δt, or Delta Time. dt is a CLI utility for doing quick DateTime calculations. Features include displaying current DateTime for UTC, local, or a specified timezone, adding/subtracting a duration from a DateTime, calculating time since/until between two DateTimes with mixed formats+timezones, and summing durations with varying formats. Most commands accept input DateTimes from any format and allow a user-specified format specifier for the output.
 
 ## Commands
 
