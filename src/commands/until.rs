@@ -8,7 +8,7 @@ pub fn run(
     end_timezone: Option<String>,
     start: Option<String>,
     end: String,
-) {
+) -> Result<String, String> {
     let start = match start {
         Some(start_str) => datetime_diff::parse_endpoint(
             ref_uses_local,
@@ -28,11 +28,11 @@ pub fn run(
     );
 
     if end < start {
-        panic!("End time is before start");
+        return Err("End time is before start".to_owned());
     }
 
-    println!(
+    Ok(format!(
         "{}",
         duration::format_duration("", end - start)
-    );
+    ))
 }

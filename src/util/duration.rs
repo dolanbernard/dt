@@ -122,7 +122,8 @@ fn parse_timestamp_duration(s: &str) -> Result<Duration, String> {
     )
 }
 
-pub fn format_duration(format_str: &str, duration: Duration) -> String {
+// TODO: format_str
+pub fn format_duration(_format_str: &str, duration: Duration) -> String {
     let mut remaining = duration.num_milliseconds();
 
     let units = [

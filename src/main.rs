@@ -9,7 +9,7 @@ mod util;
 fn main() {
     let config = args::Args::parse();
 
-    match config.command {
+    let output = match config.command {
         Command::Now {
             use_local_tz,
             timezone,
@@ -56,7 +56,7 @@ fn main() {
                 end_timezone,
                 end,
                 start
-            );
+            )
         },
         Command::Until {
             ref_uses_local,
@@ -73,7 +73,7 @@ fn main() {
                 end_timezone,
                 start,
                 end
-            );
+            )
         },
         Command::Sum {
             format_str,
@@ -81,5 +81,6 @@ fn main() {
         } => {
             commands::sum::run(format_str, &durations)
         }
-    }
+    };
+    println!("{}", output.unwrap());
 }

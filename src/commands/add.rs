@@ -8,11 +8,10 @@ pub fn run(
     timezone: Option<String>,
     format_str: Option<String>,
     delta: String,
-) {
-    let duration = parse_duration(&delta)
-        .unwrap_or_else(|e| panic!("{e}"));
+) -> Result<String, String> {
+    let duration = parse_duration(&delta)?;
 
-    println!(
+    Ok(format!(
         "{}",
         datetime::current_time_plus(
             duration,
@@ -20,5 +19,5 @@ pub fn run(
             timezone.as_deref(),
             format_str.as_deref(),
         )
-    );
+    ))
 }

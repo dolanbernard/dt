@@ -7,7 +7,7 @@ pub fn run(
     end_timezone: Option<String>,
     end: Option<String>,
     start: String,
-) {
+) -> Result<String, String> {
     let start = datetime_diff::parse_endpoint(
         ref_uses_local,
         ref_timezone.as_deref(),
@@ -27,10 +27,10 @@ pub fn run(
     };
 
     if end < start {
-        panic!("End time is before start");
+        return Err("End time is before start".to_owned());
     }
 
     let result = end - start;
 
-    println!("{}", duration::format_duration("", result));
+    Ok(format!("{}", duration::format_duration("", result)))
 }
