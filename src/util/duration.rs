@@ -175,3 +175,11 @@ pub fn format_duration(_format_str: &str, duration: Duration) -> String {
         parts.join(" ")
     }
 }
+
+pub fn sum_durations(duration_strings: &Vec<String>) -> Result<Duration, String> {
+    duration_strings.iter()
+        .try_fold(Duration::zero(), |acc, duration_string| {
+            let d = parse_duration(duration_string)?;
+            Ok(acc + d)
+        })
+}

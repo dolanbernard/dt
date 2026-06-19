@@ -80,7 +80,12 @@ fn main() {
             durations,
         } => {
             commands::sum::run(format_str, &durations)
-        }
+        },
+        Command::Timer {
+            durations,
+        } => {
+            commands::timer::run(&durations)
+        },
     };
     println!("{}", output.unwrap());
 }

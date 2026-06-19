@@ -81,5 +81,10 @@ pub enum Command {
         format_str: Option<String>,
         #[arg(num_args = 1..)]
         durations: Vec<String>
-    }
+    },
+    #[command(alias = "tmr", alias = "sleep", alias = "slp")]
+    Timer {
+        #[arg(num_args = 1..)]
+        durations: Vec<String>
+    },
 }
