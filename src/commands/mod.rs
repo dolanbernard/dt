@@ -1,4 +1,5 @@
 pub mod add;
+pub mod chronograph;
 pub mod now;
 pub mod since;
 pub mod sub;

@@ -87,4 +87,9 @@ pub enum Command {
         #[arg(num_args = 1..)]
         durations: Vec<String>
     },
+    #[command(alias = "chronograph", alias = "stopwatch", alias = "stpwtch")]
+    Chrono {
+        #[arg(short='p', long="pause-on-lap")]
+        pause_on_lap: bool,
+    },
 }
