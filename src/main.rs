@@ -87,9 +87,10 @@ fn main() {
             commands::timer::run(&durations)
         },
         Command::Chrono {
-            pause_on_lap
+            pause_on_lap,
+            force_ascii_timer
         } => {
-            commands::chronograph::run(pause_on_lap)
+            commands::chronograph::run(pause_on_lap, force_ascii_timer)
         },
     };
     println!("{}", output.unwrap());

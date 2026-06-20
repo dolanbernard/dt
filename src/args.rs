@@ -91,5 +91,7 @@ pub enum Command {
     Chrono {
         #[arg(short='p', long="pause-on-lap")]
         pause_on_lap: bool,
+        #[arg(short='a', long="force-ascii-timer")]
+        force_ascii_timer: bool,
     },
 }
